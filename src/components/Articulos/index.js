@@ -1,18 +1,23 @@
 import { Articulo } from "../Articulo";
-import styles from './estilos'
+import {Container} from './estilos'
+import AppContext from '../../data/context/context' 
 
-export const Articulos = (props) => {
-    const productos = props.data.articulos
-    const agregarAlCarro = props.agregarAlCarro
+import {useContext }from 'react'
 
+export const Articulos = () => {
+    
+    const { articulos } = useContext(AppContext)
     return (
-        <div style={styles.div}>
+        <Container>
             {
-                productos.map(prod => 
-                    // <Articulo nombre={prod.nombre} precio={prod.precio} imagen={prod.imagen} />
-                    <Articulo key={prod.id} prod={prod} agregarAlCarro={agregarAlCarro} />
+                (articulos.length > 0) ?
+                
+                articulos.map(prod => 
+                    <Articulo key={prod.id} prod={prod} />
                 )
+                :
+                <h1>No hay articulos</h1>
             }
-        </div>
+        </Container>
     )
 }

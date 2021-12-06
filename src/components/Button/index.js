@@ -1,7 +1,10 @@
-import styles from './estilos'
+import {ButtonSt} from './estilos'
+import {useContext }from 'react'
+import AppContext from '../../data/context/context' 
 
-export const Button = ({children, agregarAlCarro, prod}) => {
+export const Button = ({children, prod}) => {
+    const { agregarAlCarro } = useContext(AppContext)
     return (
-        <button onClick={() => agregarAlCarro(prod)} style={styles.button}>{children}</button>
+        <ButtonSt onClick={() => agregarAlCarro(prod)} >{children}</ButtonSt>
     )
 }

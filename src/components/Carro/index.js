@@ -1,56 +1,68 @@
 import { useState } from 'react'
 import { Burbuja } from '../Burbuja'
-import styles from './estilos'
+import { Container, Button, ListArticulos, Ul, Li, DeleteButton } from './estilos'
 
-export const Carro = ({ cantidad, productos }) => {
+export const Carro = ({ cantidad,  articulos ,eliminardelcarrito}) => {
 
     const [mostrarCarro, setMostrarCarro] = useState(false)
 
     const handleMostrarCarro = _ => setMostrarCarro(!mostrarCarro)
 
-    let subTotal = productos.reduce((acum, prod) => (prod.cantidad * prod.precio) + acum, 0)
+    let subTotal = articulos.reduce((acum, prod) => (prod.cantidad * prod.precio) + acum, 0)
     let impto = subTotal * 0.15
     let totalPagar = subTotal + impto
 
+    const eliminar = articulo => {
+        if(window.confirm('¿Desea eliminar el producto del carrito?')){
+            eliminardelcarrito(articulo)
+        }    
+    }
+
     return (
-        <div style={styles.carroContenedor}>
+        <Container>
             {cantidad > 0 && <Burbuja cantidad={cantidad} />}
-            <button onClick={handleMostrarCarro} style={styles.carro}>
+            <Button onClick={handleMostrarCarro} >
                 Carro
-            </button>
+            </Button>
             {
                 (cantidad > 0 && mostrarCarro) && 
-                    <div style={styles.listaArticulos}>
-                        <ul style={styles.ul}>
+                    <ListArticulos>
+                        <Ul >
                             {
-                                productos.map(x => {
+                                articulos.map(articulo => {
                                     return (
-                                        <li style={styles.li}>
-                                            <img height={25} alt={x.nombre} src={x.imagen} />
-                                            <span><button style={styles.deleteButton}>X</button> {x.nombre}</span>
+                                        <Li key={articulo.id} >
+                                            <img height={25} alt={articulo.nombre} src={articulo.imagen} />
                                             <span>
-                                                ({x.cantidad} x {x.precio.toLocaleString()}) = <strong>{(x.cantidad * x.precio).toLocaleString()}</strong>
+                                                <DeleteButton 
+                                                onClick={()=>eliminar(articulo)}>
+                                                    X
+                                                </DeleteButton> 
+                                                {articulo.nombre}
                                             </span>
-                                        </li>
+                                            <span>
+                                                ({articulo.cantidad} x {articulo.precio.toLocaleString()}) = <strong>{(articulo.cantidad * articulo.precio).toLocaleString()}</strong>
+                                            </span>
+                                        </Li>
                                     )
                                 })
                             }
-                            <li style={styles.li}>
+                            <Li>
                                 <strong>Sub total</strong>
                                 <strong>{subTotal.toLocaleString()}</strong>
-                            </li>
-                            <li style={styles.li}>
+                            </Li>
+                            <Li>
                                 <strong>Impuesto</strong>
                                 <strong>{impto.toLocaleString()}</strong>
-                            </li>
-                            <li style={styles.li}>
+                            </Li>
+                            <Li>
                                 <strong>Total a pagar</strong>
                                 <strong>{totalPagar.toLocaleString()}</strong>
-                            </li>
-                        </ul>
-                    </div>
+                            </Li>
+                        </Ul>
+                    </ListArticulos>
             }
-        </div>
+        </Container>
 
     )
 }

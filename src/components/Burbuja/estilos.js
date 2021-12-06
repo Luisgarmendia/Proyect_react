@@ -1,13 +1,11 @@
-const styles = {
-    burbujaNumero: {
-        backgroundColor: 'red',
-        borderRadius: '50%',
-        fontSize: '0.7rem',
-        padding: '3px 6px',
-        position: 'absolute',
-        top: 20,
-        right: 50
-    }
-}
+import styled from 'styled-components'
 
-export default styles
+export const Span = styled.span`
+    background-color: red;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    padding: 3px 6px;
+    position: absolute;
+    bottom: 2px;
+    left: -10px;
+`
